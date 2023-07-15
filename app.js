@@ -1,12 +1,16 @@
-const express = require("express");
-const mongoose = require("mongoose");
+// Discord imports
+const { Client, Events, GatewayIntentBits } = require("discord.js");
 
-const config = require("./config.json");
-//
+// Config
+const { token } = require("./config.json");
 
-const app = express();
+// const app = express();
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds],
+});
 
-mongoose
-  .connect(config.mongo)
-  .then(() => app.listen(5173))
-  .catch((error) => console.log(error));
+client.once(Events.ClientReady, (c) => {
+  console.log(`Ready! Logged in as ${c.user.tag}`);
+});
+
+client.login(token);
