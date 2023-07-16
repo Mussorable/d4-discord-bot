@@ -3,16 +3,16 @@ const { Events } = require("discord.js");
 const { globalChannel } = require("../config.json");
 
 module.exports = {
-  name: Events.GuildMemberAdd,
+  name: Events.TypingStart,
   async execute(member) {
     try {
       await member.guild.channels.cache
         .get(globalChannel)
         .send(
-          `Welcome, ${member.displayName} "The Magic Book" is a Discord Bot that provides you with comprehensive information about Diablo 4, including guides, websites, builds, and more.`
+          `Write "/book" to explore the book or "/help" to access the main commands and get started throughout the bot's functionalities.`
         );
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   },
 };
