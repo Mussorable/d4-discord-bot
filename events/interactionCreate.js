@@ -24,9 +24,8 @@ module.exports = {
     } else if (interaction.isStringSelectMenu()) {
       // respond to the select menu
       if (interaction.values.length === 1) {
-        const selectId = interaction.values[0];
+        // const selectId = interaction.values[0];
         // if (selectId === "classes") {
-
         // }
       }
     }
