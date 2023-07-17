@@ -1,7 +1,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
-const { token } = require("./config.json");
+const mongoose = require("mongoose");
+const { token, mongo } = require("./config.json");
 
 const client = new Client({
   intents: [
@@ -53,4 +54,7 @@ for (const file of eventFiles) {
   }
 }
 
-client.login(token);
+mongoose
+  .connect(mongo)
+  .then(() => client.login(token))
+  .catch((error) => console.error(error));
