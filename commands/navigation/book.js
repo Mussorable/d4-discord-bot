@@ -16,8 +16,8 @@ module.exports = {
       .addOptions(
         new StringSelectMenuOptionBuilder()
           .setLabel("Classes")
-          .setDescription("All about in Diablo 4")
-          .setValue("classes"),
+          .setDescription("Classes in Diablo 4")
+          .setValue("heroes"),
         new StringSelectMenuOptionBuilder()
           .setLabel("Utilities")
           .setDescription("3rd person support utilities")
