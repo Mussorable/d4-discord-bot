@@ -1,4 +1,11 @@
-const { Events } = require("discord.js");
+const {
+  Events,
+  ButtonBuilder,
+  ButtonStyle,
+  ActionRowBuilder,
+} = require("discord.js");
+
+const Heroes = require("../models/heroes.model");
 
 module.exports = {
   name: Events.InteractionCreate,
@@ -20,13 +27,40 @@ module.exports = {
         console.error(error);
       }
     } else if (interaction.isButton()) {
-      // respond to the button
+      const buttonFullName = interaction.customId.split("-");
+      const commandName = buttonFullName[0];
+      const buttonName = buttonFullName[1];
+
+      if (commandName === "heroes") {
+        Heroes.findById(buttonName).then((hero) => {
+          const buildsButton = new ButtonBuilder()
+            .setLabel(`${hero.title} builds`)
+            .setStyle(ButtonStyle.Link)
+            .setURL(
+              `https://maxroll.gg/d4/build-guides?filter[classes][taxonomy]=taxonomies.classes&filter[classes][value]=d4-${hero.title.toLowerCase()}`
+            );
+
+          const row = new ActionRowBuilder().addComponents(buildsButton);
+
+          return interaction.reply({
+            content:
+              "**MAXROLL.GG** - Diablo 4 Leveling & Endgame Build Guides, D4planner, Tier Lists, Resources, Items, Nightmare Dungeons, World Bosses, Maps, and much more!",
+            components: [row],
+          });
+        });
+      }
     } else if (interaction.isStringSelectMenu()) {
-      // respond to the select menu
-      if (interaction.values.length === 1) {
-        // const selectId = interaction.values[0];
-        // if (selectId === "classes") {
-        // }
+      const command = interaction.client.commands.get(interaction.values[0]);
+
+      if (!command) {
+        throw new Error("Command is not found!");
+      }
+
+      try {
+        await command.execute(interaction);
+      } catch (error) {
+        console.error(`Error executing ${interaction.commandName}`);
+        console.error(error);
       }
     }
   },

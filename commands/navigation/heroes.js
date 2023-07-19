@@ -11,6 +11,8 @@ module.exports = {
     .setName("heroes")
     .setDescription("Navigation Classes Page"),
   async execute(interaction) {
+    await interaction.deferReply();
+
     const buttons = [];
 
     await Heroes.find().then((classes) =>
@@ -18,7 +20,7 @@ module.exports = {
         const title = heroClass.title;
 
         const classButton = new ButtonBuilder()
-          .setCustomId(`${title.toLowerCase()}`)
+          .setCustomId(`heroes-${heroClass._id.toString()}`)
           .setLabel(`${title}`)
           .setStyle(ButtonStyle.Primary);
 
@@ -28,8 +30,9 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(buttons);
 
-    await interaction.reply({
+    await interaction.editReply({
       components: [row],
+      ephemeral: true,
     });
   },
 };
