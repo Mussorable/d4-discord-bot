@@ -5,7 +5,7 @@ module.exports = {
     .setName("start")
     .setDescription("The bot starts a new private channel with you."),
   async execute(interaction) {
-    if (!interaction.guild) {
+    if (interaction.channel.isThread()) {
       await interaction.reply("This command can only be used in a guild.");
       return;
     }

@@ -10,6 +10,13 @@ module.exports = {
     .setName("book")
     .setDescription("Main Menu Navigation Page"),
   async execute(interaction) {
+    if (interaction.channel.isThread() === false) {
+      await interaction.reply(
+        "This command can only be used in a private thread."
+      );
+      return;
+    }
+
     const select = new StringSelectMenuBuilder()
       .setCustomId("starter")
       .setPlaceholder("Choose the section you want to explore.")
