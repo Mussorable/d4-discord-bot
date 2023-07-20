@@ -11,6 +11,13 @@ module.exports = {
     .setName("heroes")
     .setDescription("Navigation Classes Page"),
   async execute(interaction) {
+    if (interaction.channel.isThread() === false) {
+      await interaction.reply(
+        "This command can only be used in a private thread."
+      );
+      return;
+    }
+
     await interaction.deferReply();
 
     const buttons = [];
